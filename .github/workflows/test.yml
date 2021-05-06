@@ -29,7 +29,7 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: Compile
         run: |
-          rake compile
+          rake run:build
       - name: Test
         run: |
-          rake test
+          rake run:test
