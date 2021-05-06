@@ -6,7 +6,7 @@ require 'open3'
 
 Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new]
 
-# Simple wrappers for CLI
+# A simple wrapper for lynx CLI
 def lynx_run(script = nil, options: nil, lynx: './build/lynx', script_dir: './test/lynx_scripts')
   executable = File.expand_path(lynx)
   script = File.join(File.expand_path(script_dir), script) unless script.nil?
@@ -24,4 +24,9 @@ def lynx_run(script = nil, options: nil, lynx: './build/lynx', script_dir: './te
   end
 
   result
+end
+
+def clean_dir(dir = './tmp')
+  FileUtils.rm_rf dir
+  FileUtils.mkdir_p dir
 end

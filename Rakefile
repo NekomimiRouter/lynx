@@ -43,11 +43,17 @@ end
 
 namespace :mruby do
   desc 'Build libmruby.a'
-  task libmruby: %i[mruby:source libressl:libssl] do
+  task libmruby: %i[mruby:config libressl:libssl] do
     unless File.exist?(LIB_MRUBY.to_s)
       sh "cd #{BUILD_DIR}/mruby && https_proxy=#{HTTPS_PROXY} rake"
       sh "cd #{BUILD_DIR}/mruby && https_proxy=#{HTTPS_PROXY} rake test"
     end
+  end
+
+  desc 'Configure mruby'
+  task config: :source do
+    sh "rm -fv  #{MRUBY_SOURCE}/build_config/*.rb"
+    sh "cp build_config/musl_linux_amd64.rb  #{MRUBY_SOURCE}/build_config/default.rb"
   end
 
   desc 'Fetch mruby source from GitHub'
@@ -55,8 +61,6 @@ namespace :mruby do
     unless File.exist?(MRUBY_SOURCE.to_s)
       sh "mkdir -p #{BUILD_DIR}"
       sh "https_proxy=#{HTTPS_PROXY} git clone https://github.com/mruby/mruby.git #{MRUBY_SOURCE}"
-      sh "rm -fv  #{MRUBY_SOURCE}/build_config/*.rb"
-      sh "cp build_config/musl_linux_amd64.rb  #{MRUBY_SOURCE}/build_config/default.rb"
     end
   end
 
@@ -96,15 +100,15 @@ namespace :libressl do
 
   desc 'Remove libressl build files'
   task :clean do
-    sh "rm -rfv #{LIBRESSL_INSTALL}"
     sh "cd #{LIBRESSL_SOURCE} && make clean"
+    sh "rm -rfv #{LIBRESSL_INSTALL}"
+    sh "rm -rfv #{LIBRESSL_INSTALL}."
   end
 
   desc 'Remove libressl source and build files'
   task :clobber do
     sh "rm -rfv #{LIBRESSL_SOURCE}"
     sh "rm -rfv #{LIBRESSL_INSTALL}"
-    # Remove the temp cert directory
     sh "rm -rfv #{LIBRESSL_INSTALL}."
   end
 end
