@@ -33,10 +33,16 @@ On Arch Linux
 sudo pacman -S base-devel musl --needed
 ```
 
+On MacOS (only development, using host C and brew libressl)
+
+```
+brew install libressl
+```
+
 ### Install Ruby Gems
 
 ```
-bundle install
+gem install os minitest-reporters
 ```
 
 ### Use Rake to build, test and clean up

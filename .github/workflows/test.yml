@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -qq build-essential musl-dev musl-tools
-          gem install bundler
+          gem install bundler os minitest-reporters
           bundle install --jobs 4 --retry 3
       - name: Compile
         run: |
