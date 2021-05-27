@@ -3,6 +3,7 @@
 MRuby::Build.new do |conf|
   conf.gembox 'full-core'
 
+  conf.gem mgem: 'mruby-json'
   conf.gem mgem: 'mruby-sqlite'
   conf.gem mgem: 'mruby-httpsclient'
   # TODO: Add a usable http client
@@ -23,6 +24,8 @@ MRuby::Build.new do |conf|
     linker.command = 'cc'
   end
 
+  # Turn on `enable_debug` for better debugging
+  conf.enable_debug
   conf.enable_bintest
   conf.enable_test
 end
